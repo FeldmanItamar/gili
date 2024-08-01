@@ -1,12 +1,39 @@
 const BlockType = require('../../extension-support/block-type');
 const ArgumentType = require('../../extension-support/argument-type');
 const TargetType = require('../../extension-support/target-type');
+//const firebase = require('/workspaces/gili/node_modules/firebase/app');
+//require('/workspaces/gili/node_modules/firebase/database');
+const { initializeApp } = require('/workspaces/gili/node_modules/firebase/app');
+const { getDatabase, ref, set, get } = require('/workspaces/gili/node_modules/firebase/database');
 
 class Scratch3YourExtension {
 
     constructor (runtime) {
-        // put any setup for your extension here
-    }
+        import('syllable')
+          .then((syllableModule) => {
+            this.syllable = syllableModule.syllable;
+          });
+
+          this.runtime = runtime;
+
+          // Your web app's Firebase configuration
+          const firebaseConfig = {
+            apiKey: "AIzaSyADddegGimoAk-cxU2DJvJmArf8xmg6kIo",
+            authDomain: "test-b819c.firebaseapp.com",
+            databaseURL: "https://test-b819c-default-rtdb.firebaseio.com",
+            projectId: "test-b819c",
+            storageBucket: "test-b819c.appspot.com",
+            messagingSenderId: "519279386357",
+            appId: "1:519279386357:web:055f161ba3e70f8fe3efbc"
+          };
+  
+          // Initialize Firebase
+        //const app = firebase.initializeApp(firebaseConfig);
+        //this.database = firebase.database(app);
+           // Initialize Firebase
+           const app = initializeApp(firebaseConfig);
+           this.database = getDatabase(app);  // Correct way to get the database instance
+      }
 
     /**
      * Returns the metadata about your extension.
@@ -31,7 +58,7 @@ class Scratch3YourExtension {
             blocks: [
                 {
                     // name of the function where your block code lives
-                    opcode: 'myFirstBlock',
+                    opcode: 'test1',
 
                     // type of block - choose from:
                     //   BlockType.REPORTER - returns a value, like "direction"
@@ -81,6 +108,72 @@ class Scratch3YourExtension {
                             type: ArgumentType.STRING
                         }
                     }
+                },
+                {
+                    // function where your code logic lives
+                    opcode: 'test2',
+            
+                    // type of block
+                    blockType: BlockType.REPORTER,
+            
+                    // label to display on the block
+                    text: 'Title for ISBN book [BOOK_NUMBER]',
+            
+                    // arguments used in the block
+                    arguments: {
+                      BOOK_NUMBER: {
+                        defaultValue: 1718500564,
+            
+                        // type/shape of the parameter
+                        type: ArgumentType.NUMBER
+                      }
+                    }
+                  },
+                  {
+                    // function where your code logic lives
+                    opcode: 'test3',
+            
+                    // type of block
+                    blockType: BlockType.REPORTER,
+            
+                    // label to display on the block
+                    text: 'Syllables in [MY_TEXT]',
+            
+                    // arguments used in the block
+                    arguments: {
+                      MY_TEXT: {
+                        defaultValue: 'Hello World',
+            
+                        // type/shape of the parameter
+                        type: ArgumentType.STRING
+                      }
+                    }
+                  } ,
+                  {
+                    opcode: 'readData',
+                    blockType: BlockType.REPORTER,
+                    text: 'Read data from path [DATA_PATH]',
+                    arguments: {
+                        DATA_PATH: {
+                            type: ArgumentType.STRING,
+                            defaultValue: 'path/to/data'
+                        }
+                    }
+                },
+                {
+                    opcode: 'writeData',
+                    blockType: BlockType.COMMAND,
+                    text: 'Write [DATA_VALUE] to path [DATA_PATH]',
+                    arguments: {
+                        DATA_PATH: {
+                            type: ArgumentType.STRING,
+                            defaultValue: 'path/to/data'
+                        },
+                        DATA_VALUE: {
+                            type: ArgumentType.STRING,
+                            defaultValue: 'example data'
+                        }
+                    }
                 }
             ]
         };
@@ -91,10 +184,49 @@ class Scratch3YourExtension {
      * implementation of the block with the opcode that matches this name
      *  this will be called when the block is used
      */
-    myFirstBlock ({ MY_NUMBER, MY_STRING }) {
+    test1 ({ MY_NUMBER, MY_STRING }) {
         // example implementation to return a string
         return MY_STRING + ' : doubled would be ' + (MY_NUMBER * 2);
     }
-}
+    test2 ({ BOOK_NUMBER }) {
+        return fetch('https://openlibrary.org/isbn/' + BOOK_NUMBER + '.json')
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            else {
+              return { title: 'Unknown' };
+            }
+          })
+          .then((bookinfo) => {
+            return bookinfo.title;
+          });
+      }
+      test3 ({ MY_TEXT }) {
+        return this.syllable(MY_TEXT);
+      }
+    //   readData({ DATA_PATH }) {
+    //     return this.database.ref(DATA_PATH).once('value')
+    //         .then(snapshot => snapshot.val() || 'No data found');
+    //     }
+
+    //     writeData({ DATA_PATH, DATA_VALUE }) {
+    //     return this.database.ref(DATA_PATH).set(DATA_VALUE)
+    //         .then(() => 'Data written successfully')
+    //         .catch(error => `Error writing data: ${error.message}`);
+    //     }
+
+        readData({ DATA_PATH }) {
+            return get(ref(this.database, DATA_PATH))
+                .then(snapshot => snapshot.exists() ? snapshot.val() : 'No data found')
+                .catch(error => `Error reading data: ${error.message}`);
+        }
+    
+        writeData({ DATA_PATH, DATA_VALUE }) {
+            return set(ref(this.database, DATA_PATH), DATA_VALUE)
+                .then(() => 'Data written successfully')
+                .catch(error => `Error writing data: ${error.message}`);
+        }
+    }
 
 module.exports = Scratch3YourExtension;
