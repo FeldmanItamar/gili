@@ -1,8 +1,6 @@
 const BlockType = require('../../extension-support/block-type');
 const ArgumentType = require('../../extension-support/argument-type');
 const TargetType = require('../../extension-support/target-type');
-//const firebase = require('/workspaces/gili/node_modules/firebase/app');
-//require('/workspaces/gili/node_modules/firebase/database');
 const { initializeApp } = require('/workspaces/gili/node_modules/firebase/app');
 const { getDatabase, ref, set, get } = require('/workspaces/gili/node_modules/firebase/database');
 
@@ -47,7 +45,7 @@ class Scratch3YourExtension {
             name: 'Demo',
 
             // colours to use for your extension blocks
-            color1: '#000099',
+            color1: '#05FC95', //main color for blocks
             color2: '#660066',
 
             // icons to display
@@ -56,99 +54,99 @@ class Scratch3YourExtension {
 
             // your Scratch blocks
             blocks: [
-                {
-                    // name of the function where your block code lives
-                    opcode: 'test1',
+                // {
+                //     // name of the function where your block code lives
+                //     opcode: 'test1',
 
-                    // type of block - choose from:
-                    //   BlockType.REPORTER - returns a value, like "direction"
-                    //   BlockType.BOOLEAN - same as REPORTER but returns a true/false value
-                    //   BlockType.COMMAND - a normal command block, like "move {} steps"
-                    //   BlockType.HAT - starts a stack if its value changes from false to true ("edge triggered")
-                    blockType: BlockType.REPORTER,
+                //     // type of block - choose from:
+                //     //   BlockType.REPORTER - returns a value, like "direction"
+                //     //   BlockType.BOOLEAN - same as REPORTER but returns a true/false value
+                //     //   BlockType.COMMAND - a normal command block, like "move {} steps"
+                //     //   BlockType.HAT - starts a stack if its value changes from false to true ("edge triggered")
+                //     blockType: BlockType.REPORTER,
 
-                    // label to display on the block
-                    text: 'My first block [MY_NUMBER] and [MY_STRING]',
+                //     // label to display on the block
+                //     text: 'My first block [MY_NUMBER] and [MY_STRING]',
 
-                    // true if this block should end a stack
-                    terminal: false,
+                //     // true if this block should end a stack
+                //     terminal: false,
 
-                    // where this block should be available for code - choose from:
-                    //   TargetType.SPRITE - for code in sprites
-                    //   TargetType.STAGE  - for code on the stage / backdrop
-                    // remove one of these if this block doesn't apply to both
-                    filter: [ TargetType.SPRITE, TargetType.STAGE ],
+                //     // where this block should be available for code - choose from:
+                //     //   TargetType.SPRITE - for code in sprites
+                //     //   TargetType.STAGE  - for code on the stage / backdrop
+                //     // remove one of these if this block doesn't apply to both
+                //     filter: [ TargetType.SPRITE, TargetType.STAGE ],
 
-                    // arguments used in the block
-                    arguments: {
-                        MY_NUMBER: {
-                            // default value before the user sets something
-                            defaultValue: 123,
+                //     // arguments used in the block
+                //     arguments: {
+                //         MY_NUMBER: {
+                //             // default value before the user sets something
+                //             defaultValue: 123,
 
-                            // type/shape of the parameter - choose from:
-                            //     ArgumentType.ANGLE - numeric value with an angle picker
-                            //     ArgumentType.BOOLEAN - true/false value
-                            //     ArgumentType.COLOR - numeric value with a colour picker
-                            //     ArgumentType.NUMBER - numeric value
-                            //     ArgumentType.STRING - text value
-                            //     ArgumentType.NOTE - midi music value with a piano picker
-                            type: ArgumentType.NUMBER
-                        },
-                        MY_STRING: {
-                            // default value before the user sets something
-                            defaultValue: 'hello',
+                //             // type/shape of the parameter - choose from:
+                //             //     ArgumentType.ANGLE - numeric value with an angle picker
+                //             //     ArgumentType.BOOLEAN - true/false value
+                //             //     ArgumentType.COLOR - numeric value with a colour picker
+                //             //     ArgumentType.NUMBER - numeric value
+                //             //     ArgumentType.STRING - text value
+                //             //     ArgumentType.NOTE - midi music value with a piano picker
+                //             type: ArgumentType.NUMBER
+                //         },
+                //         MY_STRING: {
+                //             // default value before the user sets something
+                //             defaultValue: 'hello',
 
-                            // type/shape of the parameter - choose from:
-                            //     ArgumentType.ANGLE - numeric value with an angle picker
-                            //     ArgumentType.BOOLEAN - true/false value
-                            //     ArgumentType.COLOR - numeric value with a colour picker
-                            //     ArgumentType.NUMBER - numeric value
-                            //     ArgumentType.STRING - text value
-                            //     ArgumentType.NOTE - midi music value with a piano picker
-                            type: ArgumentType.STRING
-                        }
-                    }
-                },
-                {
-                    // function where your code logic lives
-                    opcode: 'test2',
+                //             // type/shape of the parameter - choose from:
+                //             //     ArgumentType.ANGLE - numeric value with an angle picker
+                //             //     ArgumentType.BOOLEAN - true/false value
+                //             //     ArgumentType.COLOR - numeric value with a colour picker
+                //             //     ArgumentType.NUMBER - numeric value
+                //             //     ArgumentType.STRING - text value
+                //             //     ArgumentType.NOTE - midi music value with a piano picker
+                //             type: ArgumentType.STRING
+                //         }
+                //     }
+                // },
+                // {
+                //     // function where your code logic lives
+                //     opcode: 'test2',
             
-                    // type of block
-                    blockType: BlockType.REPORTER,
+                //     // type of block
+                //     blockType: BlockType.REPORTER,
             
-                    // label to display on the block
-                    text: 'Title for ISBN book [BOOK_NUMBER]',
+                //     // label to display on the block
+                //     text: 'Title for ISBN book [BOOK_NUMBER]',
             
-                    // arguments used in the block
-                    arguments: {
-                      BOOK_NUMBER: {
-                        defaultValue: 1718500564,
+                //     // arguments used in the block
+                //     arguments: {
+                //       BOOK_NUMBER: {
+                //         defaultValue: 1718500564,
             
-                        // type/shape of the parameter
-                        type: ArgumentType.NUMBER
-                      }
-                    }
-                  },
-                  {
-                    // function where your code logic lives
-                    opcode: 'test3',
+                //         // type/shape of the parameter
+                //         type: ArgumentType.NUMBER
+                //       }
+                //     }
+                //   },
+                //   {
+                //     // function where your code logic lives
+                //     opcode: 'test3',
             
-                    // type of block
-                    blockType: BlockType.REPORTER,
+                //     // type of block
+                //     blockType: BlockType.REPORTER,
             
-                    // label to display on the block
-                    text: 'Syllables in [MY_TEXT]',
+                //     // label to display on the block
+                //     text: 'Syllables in [MY_TEXT]',
             
-                    // arguments used in the block
-                    arguments: {
-                      MY_TEXT: {
-                        defaultValue: 'Hello World',
+                //     // arguments used in the block
+                //     arguments: {
+                //       MY_TEXT: {
+                //         defaultValue: 'Hello World',
             
-                        // type/shape of the parameter
-                        type: ArgumentType.STRING
-                      }
-                    }
-                  } ,
+                //         // type/shape of the parameter
+                //         type: ArgumentType.STRING
+                //       }
+                //     }
+                //   } ,
                   {
                     opcode: 'readData',
                     blockType: BlockType.REPORTER,
@@ -175,6 +173,19 @@ class Scratch3YourExtension {
                         }
                     }
                 }
+            //     ,
+            //   {
+            //     opcode: 'moveSprite',
+            //     blockType: BlockType.COMMAND,
+            //     text: 'move sprite by [STEP] steps',
+            //     arguments: {
+            //         STEP: {
+            //             type: ArgumentType.NUMBER,
+            //             defaultValue: 10
+            //         }
+            //     },
+            //     filter: [TargetType.SPRITE]  // Ensure this block is only available for sprites
+            // }
             ]
         };
     }
@@ -184,37 +195,27 @@ class Scratch3YourExtension {
      * implementation of the block with the opcode that matches this name
      *  this will be called when the block is used
      */
-    test1 ({ MY_NUMBER, MY_STRING }) {
-        // example implementation to return a string
-        return MY_STRING + ' : doubled would be ' + (MY_NUMBER * 2);
-    }
-    test2 ({ BOOK_NUMBER }) {
-        return fetch('https://openlibrary.org/isbn/' + BOOK_NUMBER + '.json')
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            else {
-              return { title: 'Unknown' };
-            }
-          })
-          .then((bookinfo) => {
-            return bookinfo.title;
-          });
-      }
-      test3 ({ MY_TEXT }) {
-        return this.syllable(MY_TEXT);
-      }
-    //   readData({ DATA_PATH }) {
-    //     return this.database.ref(DATA_PATH).once('value')
-    //         .then(snapshot => snapshot.val() || 'No data found');
-    //     }
-
-    //     writeData({ DATA_PATH, DATA_VALUE }) {
-    //     return this.database.ref(DATA_PATH).set(DATA_VALUE)
-    //         .then(() => 'Data written successfully')
-    //         .catch(error => `Error writing data: ${error.message}`);
-    //     }
+    // test1 ({ MY_NUMBER, MY_STRING }) {
+    //     // example implementation to return a string
+    //     return MY_STRING + ' : doubled would be ' + (MY_NUMBER * 2);
+    // }
+    // test2 ({ BOOK_NUMBER }) {
+    //     return fetch('https://openlibrary.org/isbn/' + BOOK_NUMBER + '.json')
+    //       .then((response) => {
+    //         if (response.ok) {
+    //           return response.json();
+    //         }
+    //         else {
+    //           return { title: 'Unknown' };
+    //         }
+    //       })
+    //       .then((bookinfo) => {
+    //         return bookinfo.title;
+    //       });
+    //   }
+    //   test3 ({ MY_TEXT }) {
+    //     return this.syllable(MY_TEXT);
+    //   }
 
         readData({ DATA_PATH }) {
             return get(ref(this.database, DATA_PATH))
@@ -227,6 +228,15 @@ class Scratch3YourExtension {
                 .then(() => 'Data written successfully')
                 .catch(error => `Error writing data: ${error.message}`);
         }
+      //   moveSprite({ STEP }) {
+      //     return this.setXY(this.x + STEP, this.y);
+      // }
+    //   moveSprite(args, util) {
+    //     const sprite = util.target;
+    //     sprite.x = sprite.x + parseInt(args.STEP);
+    //     sprite.y += 0; // No change in y-axis
+    //     sprite.updateAllDrawableProperties();
+    // }
     }
 
 module.exports = Scratch3YourExtension;
